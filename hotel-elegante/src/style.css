@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Young+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+}
+
+.page{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 4px 10px;
+}
+
+.title {
+  font-size: 30px;
+  font-family: 'Young Serif', serif;
+  text-align: center;
+}
+
+.button:hover{
+  color: white;
+  background-color: #b97533;
+  border: 1px solid #be7327;
+}
