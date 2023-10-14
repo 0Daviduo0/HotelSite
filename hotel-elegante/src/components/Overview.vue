@@ -24,9 +24,7 @@
                 </div>
 
                 <div class="clientReview">
-                    <div class="profileIcon">
-
-                    </div>
+                    <Avatar image="https://i.ibb.co/mXWWrQV/female2.png" class="mr-2 customAvatar" shape="circle" />
 
                     <div class="review">
                         <div class="reviewParagraph">
@@ -54,9 +52,8 @@
                 </div>
 
                 <div class="clientReview">
-                    <div class="profileIcon">
+                    <Avatar image="https://i.ibb.co/0GqgmcB/male1.png" class="mr-2 customAvatar" shape="circle" />
 
-                    </div>
 
                     <div class="review">
                         <div class="reviewParagraph">
@@ -86,9 +83,8 @@
                 </div>
 
                 <div class="clientReview">
-                    <div class="profileIcon">
+                    <Avatar image="https://i.ibb.co/jZhPqCz/male2.png" class="mr-2 customAvatar" shape="circle" />
 
-                    </div>
 
                     <div class="review">
                         <div class="reviewParagraph">
@@ -116,9 +112,7 @@
                 </div>
 
                 <div class="clientReview">
-                    <div class="profileIcon">
-
-                    </div>
+                    <Avatar image="https://i.ibb.co/dkPBvnK/female1.png" class="mr-2 customAvatar" shape="circle" />
 
                     <div class="review">
                         <div class="reviewParagraph">
@@ -231,10 +225,19 @@
 .clientReview{
     margin: 0 auto;
     margin-top: 20px;
+    padding: 15px;
     width: 90%;
     height: 100px;
     border: 1px solid #b97533;
     border-radius: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.customAvatar {
+    width: 80px;
+    height: 80px;
+    line-height: 80px; /* Questo è per centrare il contenuto, se hai un testo o un'icona all'interno */
 }
 
 
