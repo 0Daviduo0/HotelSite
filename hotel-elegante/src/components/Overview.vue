@@ -1,4 +1,5 @@
 <script setup>
+import ReviewComponent from './ReviewComponent.vue';
 
 </script>
 
@@ -23,19 +24,14 @@
                     the upper levels. Potted palm trees add a touch of natural greenery, rounding off the elegant atmosphere.
                 </div>
 
-                <div class="clientReview">
-                    <Avatar image="https://i.ibb.co/mXWWrQV/female2.png" class="mr-2 customAvatar" shape="circle" />
+                <ReviewComponent 
+                    avatarImage="https://i.ibb.co/mXWWrQV/female2.png" 
+                    reviewText="Stepped into the lobby and was instantly blown away by its grandeur. 
+                                The chandeliers and marble floors give such a luxurious feel. Truly 
+                                a majestic welcome!"
+                    :rating="5" 
+                />
 
-                    <div class="review">
-                        <div class="reviewParagraph">
-
-                        </div>
-                    </div>
-
-                    <div class="stars">
-
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -51,20 +47,13 @@
                     unforgettable culinary experience. Large windows grant breathtaking views of the sunset, while attentive staff ensure impeccable service.
                 </div>
 
-                <div class="clientReview">
-                    <Avatar image="https://i.ibb.co/0GqgmcB/male1.png" class="mr-2 customAvatar" shape="circle" />
+                <ReviewComponent 
+                    avatarImage="https://i.ibb.co/0GqgmcB/male1.png" 
+                    reviewText="Dined with a sunset view. The ambiance was top-notch, and the staff were 
+                                extremely attentive. A memorable dining experience!" 
+                    :rating="5"
+                />
 
-
-                    <div class="review">
-                        <div class="reviewParagraph">
-
-                        </div>
-                    </div>
-
-                    <div class="stars">
-                        
-                    </div>
-                </div>
             </div>
             <div class="image" id="restaurant"></div>
         </div>
@@ -72,6 +61,28 @@
 
         <div class="group">
             <div class="image" id="pool"></div>
+            <div class="description">
+                <div class="descrTitle title">
+                    Indoor Pool 
+                </div>
+
+                <div class="descrParagraph">
+                    An oasis of tranquility within the hotel, the indoor pool offers a serene relaxation experience. Crystal clear waters mirror the 
+                    ornate ceiling, creating an ethereal ambiance. Lounge chairs and tropical plants surround the pool, with soft lighting adding a touch of serenity.
+                </div>
+
+                <ReviewComponent 
+                    avatarImage="https://i.ibb.co/dkPBvnK/female1.png" 
+                    reviewText="The indoor pool was a dream. Swimming under that ornate ceiling with the 
+                                soft lighting was so relaxing. A must-try!" 
+                    :rating="4.5"
+                />
+
+            </div>
+        </div>
+        
+
+        <div class="group">
             <div class="description">
                 <div class="descrTitle title">
                     Luxury Suite
@@ -82,48 +93,13 @@
                     seating area. A private balcony offers sweeping city views, while modern amenities ensure an unparalleled stay.
                 </div>
 
-                <div class="clientReview">
-                    <Avatar image="https://i.ibb.co/jZhPqCz/male2.png" class="mr-2 customAvatar" shape="circle" />
+                <ReviewComponent 
+                    avatarImage="https://i.ibb.co/jZhPqCz/male2.png" 
+                    reviewText="The suite was the epitome of comfort and luxury. Loved the balcony views and 
+                                the plush bedding. Felt like royalty!" 
+                    :rating="5"
+                />
 
-
-                    <div class="review">
-                        <div class="reviewParagraph">
-
-                        </div>
-                    </div>
-
-                    <div class="stars">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-        <div class="group">
-            <div class="description">
-                <div class="descrTitle title">
-                    Indoor Pool
-                </div>
-
-                <div class="descrParagraph">
-                    An oasis of tranquility within the hotel, the indoor pool offers a serene relaxation experience. Crystal clear waters mirror the 
-                    ornate ceiling, creating an ethereal ambiance. Lounge chairs and tropical plants surround the pool, with soft lighting adding a touch of serenity.
-                </div>
-
-                <div class="clientReview">
-                    <Avatar image="https://i.ibb.co/dkPBvnK/female1.png" class="mr-2 customAvatar" shape="circle" />
-
-                    <div class="review">
-                        <div class="reviewParagraph">
-
-                        </div>
-                    </div>
-
-                    <div class="stars">
-                        
-                    </div>
-                </div>
             </div>
             <div class="image" id="bedrooms"></div>
         </div>
@@ -218,27 +194,7 @@
 }
 
 .descrParagraph {
-    position: relative;  /* Rende il descrParagraph un elemento padre posizionato per gli pseudo-elementi */
+    position: relative;
     padding: 30px;
 }
-
-.clientReview{
-    margin: 0 auto;
-    margin-top: 20px;
-    padding: 15px;
-    width: 90%;
-    height: 100px;
-    border: 1px solid #b97533;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-}
-
-.customAvatar {
-    width: 80px;
-    height: 80px;
-    line-height: 80px; /* Questo è per centrare il contenuto, se hai un testo o un'icona all'interno */
-}
-
-
 </style>
