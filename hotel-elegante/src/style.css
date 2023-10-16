@@ -8,6 +8,34 @@
   font-family: 'Lato', sans-serif;
 }
 
+/* Remove default styles for all router-links */
+a.router-link-active, a.router-link-exact-active {
+  color: inherit; /* Use parent's color */
+  text-decoration: none; /* Remove underline */
+}
+
+.p-tooltip {
+  background-color: #fff !important;  /* Dark background */
+  color: #000 !important;             /* White text */
+  border-radius: 8px !important;      /* Rounded corners */
+  padding: 7px 10px !important; 
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important; /* A subtle shadow */
+}
+
+/* Tooltip arrow */
+.p-tooltip-arrow {
+  border-color: #fff !important;  /* Color of the tooltip arrow */
+}
+
+.disabled-link {
+  pointer-events: none; /* Disable any mouse interactions */
+  opacity: 0.5; /* Make the link semi-transparent */
+  background-color: #b97533;
+  border-color: #b97533;
+  color: #fff;
+}
+
+
 .page{
   width: 100vw;
   height: 100vh;
@@ -27,14 +55,25 @@
   padding: 4px 10px;
 }
 
-.title {
-  font-size: 30px;
-  font-family: 'Young Serif', serif;
-  text-align: center;
+.circolar{
+  border-radius: 50% !important;
 }
 
 .button:hover{
   color: white;
   background-color: #b97533;
   border: 1px solid #be7327;
+  cursor: pointer;
 }
+
+.title {
+  font-size: 30px;
+  font-family: 'Young Serif', serif;
+  text-align: center;
+}
+
+.sides{
+  display: flex;
+  gap: 10px;
+}
+
