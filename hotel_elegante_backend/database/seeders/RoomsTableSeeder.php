@@ -16,12 +16,16 @@ class RoomsTableSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        foreach(range(1, 10) as $index) {
+        foreach(range(1, 100) as $index) {
+            $type = $faker->randomElement(['singola', 'doppia', 'suite']);
+            $price = $this->generateRealisticPrice($type);
+
             DB::table('rooms')->insert([
-                'type' => $faker->randomElement(['singola', 'doppia', 'suite']),
-                'price' => $this->generateRealisticPrice(),
-                'is_available' => $faker->boolean(80), // 80% di probabilità che la camera sia disponibile
+                'type' => $type,
+                'price' => $price,
+                'is_available' => $faker->boolean(80),
             ]);
+
         }
     }
 
@@ -31,16 +35,16 @@ class RoomsTableSeeder extends Seeder
  *
  * @return float
  */
-    private function generateRealisticPrice()
+    private function generateRealisticPrice($type)
     {
         $typePrices = [
-            'singola' => [250, 350],
-            'doppia' => [350, 500],
-            'suite' => [600, 1000],
+            'singola' => 350,
+            'doppia' => 500,
+            'suite' => 1000,
         ];
 
-        $type = array_rand($typePrices);
-        return number_format(rand($typePrices[$type][0], $typePrices[$type][1]), 2, '.', '');
+        return number_format($typePrices[$type], 2, '.', '');
     }
+
 
 }
