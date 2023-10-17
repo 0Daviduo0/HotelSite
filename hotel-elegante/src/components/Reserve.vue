@@ -2,6 +2,13 @@
 import NavigationComponent from './NavigationComponent.vue';
 import { useRoute } from 'vue-router';
 import Tooltip from 'primevue/tooltip';
+import axios from 'axios';
+
+axios.get('http://localhost:8000/api/rooms')
+    .then(response => {
+        this.rooms = response.data;
+    });
+
 
 const route = useRoute();
 </script>
