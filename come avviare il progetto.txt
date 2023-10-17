@@ -1,0 +1,9 @@
+frontend:
+
+npm run dev
+
+
+backend (for db use xampp):
+php artisan serve
+php artisan migrate
+php artisan db:seed --class=RoomsTableSeeder
