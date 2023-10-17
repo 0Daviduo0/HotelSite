@@ -1,16 +1,34 @@
 <script setup>
+import { computed, onMounted, ref } from 'vue';
 import NavigationComponent from './NavigationComponent.vue';
 import { useRoute } from 'vue-router';
 import Tooltip from 'primevue/tooltip';
 import axios from 'axios';
 
-axios.get('http://localhost:8000/api/rooms')
-    .then(response => {
-        this.rooms = response.data;
-    });
-
-
 const route = useRoute();
+const roomsData = ref([]);
+
+onMounted(async () => {
+    try {
+        const { data } = await axios.get('http://localhost:8000/api/rooms');
+        roomsData.value = data;
+    } catch (error) {
+        console.error("Errore nel recupero dei dati delle camere:", error);
+    }
+});
+
+const roomTypes = computed(() => {
+    const types = ['suite', 'singola', 'doppia'];
+    return types.map(type => {
+        const roomsOfType = roomsData.value.filter(room => room.type === type);
+        const availableRooms = roomsOfType.filter(room => room.is_available === 1).length;
+        return {
+            type,
+            price: roomsOfType[0]?.price || 0,
+            available: availableRooms
+        };
+    });
+});
 </script>
 
 <template>
@@ -86,8 +104,20 @@ const route = useRoute();
         </template>
     </NavigationComponent>
 
+    <div class="rooms-info">
+        <div v-for="roomType in roomTypes" :key="roomType.type" class="room-type-info">
+            <h3>{{ roomType.type.charAt(0).toUpperCase() + roomType.type.slice(1) }}</h3>
+            <p>Prezzo: €{{ roomType.price }}</p>
+            <p>Camere disponibili: {{ roomType.available }}</p>
+        </div>
+    </div>
+
 </template>
 
 <style scoped>
+
+.room-type-info {
+    margin-bottom: 20px;
+}
 
 </style>
