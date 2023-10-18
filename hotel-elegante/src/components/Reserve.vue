@@ -51,6 +51,24 @@ const roomImages = {
         'https://i.ibb.co/YcMx0bM/double4.png'
     ]
 };
+
+const hoveredStatus = ref({
+    suite: false,
+    singola: false,
+    doppia: false
+});
+
+
+const onHover = (roomType) => {
+    hoveredStatus.value[roomType] = true;
+};
+
+const onLeave = (roomType) => {
+    hoveredStatus.value[roomType] = false;
+};
+
+
+
 </script>
 
 <template>
@@ -128,33 +146,46 @@ const roomImages = {
 
     <div class="title">Reserve a room</div>
 
-    <div class="rooms-info">
-        <div v-for="roomType in roomTypes" :key="roomType.type" class="room-type-info">
-            <div class="title" style="font-size: 22px; padding-bottom: 10px;">{{ roomType.type.charAt(0).toUpperCase() + roomType.type.slice(1) }}</div>
-            <!-- Applica la classe custom-carousel al componente Carousel -->
-            <Carousel :value="roomImages[roomType.type]" :numVisible="1" :numScroll="1" :circular="true" class="custom-carousel">
-                <template #item="slotProps">
-                    <img :src="slotProps.data" alt="Room Image" class="room-image" />
-                </template>
-            </Carousel>
-            <div class="infos">
-                <div class="info-box"><span class="symbol"> <i class="pi pi-dollar"></i></span>{{ roomType.price }}</div>
-                <div class="info-box"><span class="symbol"> <i class="pi pi-building"></i></span> {{ roomType.available }}</div>
+    <div class="wrapper">
+        <div v-for="roomType in roomTypes" :key="roomType.type" class="rooms-info">
+            <div class="room-type-info"
+                v-bind:class="{ 'hovered': hoveredStatus[roomType.type] }"
+            >
+                <div class="title" style="font-size: 22px; padding-bottom: 10px;">{{ roomType.type.charAt(0).toUpperCase() + roomType.type.slice(1) }}</div>
+                <!-- Applica la classe custom-carousel al componente Carousel -->
+                <Carousel :value="roomImages[roomType.type]" :numVisible="1" :numScroll="1" :circular="true" class="custom-carousel">
+                    <template #item="slotProps">
+                        <img :src="slotProps.data" alt="Room Image" class="room-image" />
+                    </template>
+                </Carousel>
+                <div class="infos">
+                    <div class="info-box"><span class="symbol"> <i class="pi pi-dollar"></i></span>{{ roomType.price }}</div>
+                    <div class="info-box"><span class="symbol"> <i class="pi pi-building"></i></span> {{ roomType.available }}</div>
+                </div>
+            </div>
+            <div class="reserve"
+                @mouseover="onHover(roomType.type)" 
+                @mouseleave="onLeave(roomType.type)"
+            >
+                I choose this!
             </div>
         </div>
     </div>
+    
 
 </template>
 
 <style scoped>
 
-.rooms-info {
+.wrapper{
     margin-top: 50px;
     width: 100vw;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 .room-type-info{
@@ -163,14 +194,9 @@ const roomImages = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgba(128, 128, 128, 0.582);
+    border: 3px solid rgba(128, 128, 128, 0.582);
     border-radius: 8px;
     padding: 10px;
-}
-
-.room-type-info:hover{
-    border: 3px solid #b97533;
-    padding: 7px;
 }
 
 .custom-carousel {
@@ -205,6 +231,26 @@ const roomImages = {
     background-color: #b97533;
     color: #fff;
     padding: 10px 7px;
+}
+
+.reserve{
+    border: 1px solid rgba(128, 128, 128, 0.582);
+    border-radius: 8px;
+    color: #000;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 10px 7px;
+}
+
+.reserve:hover{
+    border: 1px solid #b97533;
+    background-color: #b97533;
+    color: white;
+}
+
+.room-type-info.hovered {
+    border: 3px solid #b97533;
 }
 
 </style>
