@@ -314,6 +314,8 @@ const onLeave = (roomType) => {
 .room-image {
     max-width: 100%;
     height: auto;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .infos{
