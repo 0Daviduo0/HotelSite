@@ -1,10 +1,14 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import NavigationComponent from './NavigationComponent.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Tooltip from 'primevue/tooltip';
+import Dialog from 'primevue/dialog';
+import Steps from 'primevue/steps';
 import axios from 'axios';
 import Carousel from 'primevue/carousel';
+
+const router = useRouter();
 
 
 const isLoading = ref(true); // inizialmente impostato su true
@@ -24,15 +28,6 @@ onMounted(async () => {
 
 const route = useRoute();
 const roomsData = ref([]);
-
-onMounted(async () => {
-    try {
-        const { data } = await axios.get('http://localhost:8000/api/rooms');
-        roomsData.value = data;
-    } catch (error) {
-        console.error("Errore nel recupero dei dati delle camere:", error);
-    }
-});
 
 const roomTypes = computed(() => {
     const types = ['suite', 'single', 'double'];
@@ -124,6 +119,23 @@ const onLeave = (roomType) => {
 };
 
 
+const showDialog = ref(false);
+const selectedRoomType = ref(null);
+
+const openRoomDialog = (roomType) => {
+    console.log("Trying to open modal for room type:", roomType);
+    selectedRoomType.value = roomType;
+    showDialog.value = true;
+    console.log("Modal should be opened now.");
+};
+
+const activeStep = ref(0); // inizialmente impostato sul primo passo
+
+const items = [
+    { label: 'Dettagli personali' },
+    { label: 'Pagamento' },
+    { label: 'Conferma' },
+];
 
 </script>
 
@@ -244,18 +256,51 @@ const onLeave = (roomType) => {
                 
             </div>
             <div class="reserve"
+                @click="openRoomDialog(roomType.type)"
                 @mouseover="onHover(roomType.type)" 
                 @mouseleave="onLeave(roomType.type)"
             >
                 i choose {{roomType.type}}
             </div>
+
         </div>
     </div>
-    
 
+    <Dialog :visible.sync="showDialog" :modal="true" :closable="false">
+        <template #header>
+            <div class="dialogHeader">
+                {{ selectedRoomType + ' Details' }}
+                <i class="pi pi-times close-button" @click="showDialog = false"></i>
+            </div>
+        </template>
+
+        <!-- Aggiungi il componente Steps qui -->
+        <Steps :model="items" :activeIndex="activeStep" />
+
+        <!-- Qui puoi aggiungere il contenuto specifico di ciascun passo -->
+        <div v-if="activeStep === 0">
+            Dettagli personali
+        </div>
+        <div v-if="activeStep === 1">
+            Pagamento
+        </div>
+        <div v-if="activeStep === 2">
+            Conferma
+        </div>
+        
+
+        <!-- Potresti voler aggiungere dei pulsanti per avanzare o tornare indietro tra i passi -->
+        <button @click="activeStep = Math.max(0, activeStep - 1)">Indietro</button>
+        <button @click="activeStep = Math.min(items.length - 1, activeStep + 1)">Avanti</button>
+    </Dialog>
+
+
+
+    
 </template>
 
-<style scoped>
+<style scooped>
+
 
 .loading-overlay {
     display: flex;
@@ -394,5 +439,11 @@ const onLeave = (roomType) => {
     width: 380px;
     height: 210px;
 }
+
+</style>
+
+<style>
+@import url('../dialog.css');
+@import url('../steps.css');
 
 </style>

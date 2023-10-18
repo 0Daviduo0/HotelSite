@@ -1,0 +1,19 @@
+/* Stile per lo step attivo */
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+    background-color: #b97533 !important;
+    border-color: #b97533 !important;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link {
+    color: #b97533 !important;
+}
+
+/* Stile per l'icona di tick quando uno step è completato (opzionale) */
+.p-steps .p-steps-item.p-state-highlight .p-steps-number {
+    background-color: #b97533 !important;
+    border-color: #b97533 !important;
+}
+
+.p-steps .p-steps-item.p-state-highlight .p-menuitem-link {
+    color: #b97533 !important;
+}
