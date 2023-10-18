@@ -130,15 +130,17 @@ const roomImages = {
 
     <div class="rooms-info">
         <div v-for="roomType in roomTypes" :key="roomType.type" class="room-type-info">
-            <h3>{{ roomType.type.charAt(0).toUpperCase() + roomType.type.slice(1) }}</h3>
+            <div class="title" style="font-size: 22px; padding-bottom: 10px;">{{ roomType.type.charAt(0).toUpperCase() + roomType.type.slice(1) }}</div>
             <!-- Applica la classe custom-carousel al componente Carousel -->
             <Carousel :value="roomImages[roomType.type]" :numVisible="1" :numScroll="1" :circular="true" class="custom-carousel">
                 <template #item="slotProps">
                     <img :src="slotProps.data" alt="Room Image" class="room-image" />
                 </template>
             </Carousel>
-            <p>Prezzo: €{{ roomType.price }}</p>
-            <p>Camere disponibili: {{ roomType.available }}</p>
+            <div class="infos">
+                <div class="info-box"><span class="symbol"> <i class="pi pi-dollar"></i></span>{{ roomType.price }}</div>
+                <div class="info-box"><span class="symbol"> <i class="pi pi-building"></i></span> {{ roomType.available }}</div>
+            </div>
         </div>
     </div>
 
@@ -151,16 +153,28 @@ const roomImages = {
     width: 100vw;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .room-type-info{
-    width: calc(100% / 4);
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(128, 128, 128, 0.582);
+    border-radius: 8px;
+    padding: 10px;
+}
 
+.room-type-info:hover{
+    border: 3px solid #b97533;
+    padding: 7px;
 }
 
 .custom-carousel {
-    width: 300px;  /* Modifica a seconda delle tue esigenze */
-    height: 200px; /* Modifica a seconda delle tue esigenze */
+    width: 350px;  /* Modifica a seconda delle tue esigenze */
 }
 
 .room-image {
@@ -168,6 +182,29 @@ const roomImages = {
     height: auto;
 }
 
+.infos{
+    margin: 10px 0px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 40px;
+}
 
+.symbol{
+    border: 1px solid white;
+    background-color: #fff;
+    color: #b97533;
+    border-radius: 50%;
+    padding: 3px 5px;
+    margin-right: 7px;
+}
+
+.info-box{
+    border: 1px solid #b97533;
+    border-radius: 8px;
+    background-color: #b97533;
+    color: #fff;
+    padding: 10px 7px;
+}
 
 </style>
