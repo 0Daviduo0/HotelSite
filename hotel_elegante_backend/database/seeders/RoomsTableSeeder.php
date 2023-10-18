@@ -17,7 +17,7 @@ class RoomsTableSeeder extends Seeder
         $faker = Faker::create();
 
         foreach(range(1, 100) as $index) {
-            $type = $faker->randomElement(['singola', 'doppia', 'suite']);
+            $type = $faker->randomElement(['single', 'double', 'suite']);
             $price = $this->generateRealisticPrice($type);
 
             DB::table('rooms')->insert([
@@ -38,8 +38,8 @@ class RoomsTableSeeder extends Seeder
     private function generateRealisticPrice($type)
     {
         $typePrices = [
-            'singola' => 350,
-            'doppia' => 500,
+            'single' => 350,
+            'double' => 500,
             'suite' => 1000,
         ];
 
