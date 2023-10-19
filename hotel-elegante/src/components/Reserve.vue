@@ -150,12 +150,35 @@ const isActive = (item) => {
     return item.route ? router.resolve(item.route).path === route.path : false;
 }
 
-const advanceStep = () => {
-    const currentStepIndex = items.value.findIndex(item => isActive(item));
-    if (currentStepIndex !== -1 && currentStepIndex < items.value.length - 1) {
-        router.push(items.value[currentStepIndex + 1].route);
+const formData = ref({
+    nameSurname: '',
+    email: '',
+    password: ''
+});
+
+const currentStep = computed(() => items.value.findIndex(item => isActive(item)));
+
+function handleDetailsUpdate(details) {
+    formData.value = details;
+
+    // Una volta ricevuto l'evento, procedi allo step successivo
+    advanceToNextStep();
+}
+
+function advanceStep() {
+    if (route.name === 'Details') { // Se siamo nello step "Details"
+        // Non fare nulla qui, aspetta che l'evento venga sollevato dal componente "Details"
+    } else {
+        advanceToNextStep();
     }
-};
+}
+
+function advanceToNextStep() {
+    const nextStepIndex = currentStep.value + 1;
+    if (nextStepIndex < items.value.length) {
+        router.push(items.value[nextStepIndex].route);
+    }
+}
 
 const goBackStep = () => {
     const currentStepIndex = items.value.findIndex(item => isActive(item));
@@ -329,10 +352,9 @@ const goBackStep = () => {
         </div>
 
     <!-- Componente router-view per mostrare il componente corrispondente alla rotta attuale -->
-    <router-view></router-view>
+    <router-view :form-data="formData" @update-details="handleDetailsUpdate"></router-view>
 
     <button @click="goBackStep" class="back-button" v-if="items.findIndex(item => isActive(item)) > 0">Indietro</button>
-    <button @click="advanceStep" class="advance-button" v-if="items.findIndex(item => isActive(item)) < items.length - 1">Avanti</button>
             
     </Dialog>
 
