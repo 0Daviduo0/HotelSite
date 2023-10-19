@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import NavigationComponent from './NavigationComponent.vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useToast } from "primevue/usetoast";
 import Tooltip from 'primevue/tooltip';
 import Dialog from 'primevue/dialog';
 import Steps from 'primevue/steps';
@@ -25,8 +26,6 @@ onMounted(async () => {
     }
 });
 
-
-const route = useRoute();
 const roomsData = ref([]);
 
 const roomTypes = computed(() => {
@@ -129,13 +128,42 @@ const openRoomDialog = (roomType) => {
     console.log("Modal should be opened now.");
 };
 
-const activeStep = ref(0); // inizialmente impostato sul primo passo
+const toast = useToast();
+const route = useRoute();
 
-const items = [
-    { label: 'Dettagli personali' },
-    { label: 'Pagamento' },
-    { label: 'Conferma' },
-];
+const items = ref([
+    {
+        label: 'Details',
+        route: "/reserve/details"
+    },
+    {
+        label: 'Payment',
+        route: "/reserve/payment",
+    },
+    {
+        label: 'Confirmation',
+        route: "/reserve/confirm",
+    }
+]);
+
+const isActive = (item) => {
+    return item.route ? router.resolve(item.route).path === route.path : false;
+}
+
+const advanceStep = () => {
+    const currentStepIndex = items.value.findIndex(item => isActive(item));
+    if (currentStepIndex !== -1 && currentStepIndex < items.value.length - 1) {
+        router.push(items.value[currentStepIndex + 1].route);
+    }
+};
+
+const goBackStep = () => {
+    const currentStepIndex = items.value.findIndex(item => isActive(item));
+    if (currentStepIndex > 0) {
+        router.push(items.value[currentStepIndex - 1].route);
+    }
+};
+
 
 </script>
 
@@ -183,7 +211,7 @@ const items = [
         <template #right-buttons>
             <div class="sides">
                 <div 
-                    v-tooltip.top="route.path === '/reserve' ? 'you are here' : ''"
+                    v-tooltip.top="route.path === '/reserve/details' ? 'you are here' : ''"
                 >
                     <div 
                         class="reserveBtn button circular" 
@@ -251,7 +279,7 @@ const items = [
             </div>
             <!-- Fine delle icone dei servizi -->
 
-            <div class="description" v-if="roomDetails[roomType.type]">
+            <div class="roomDescription" v-if="roomDetails[roomType.type]">
                 <p>{{ roomDetails[roomType.type].description }}</p>
                 
             </div>
@@ -274,32 +302,45 @@ const items = [
             </div>
         </template>
 
-        <!-- Aggiungi il componente Steps qui -->
-        <Steps :model="items" :activeIndex="activeStep" />
+        <!-- Aggiungi il componente Steps qui con un listener per handleStepClick -->
+        <div class="card">
+            <Steps :model="items" aria-label="Form Steps" :readonly="false"
+                :pt="{
+                    menuitem: ({ context }) => ({
+                        class: isActive(context.item) && 'p-highlight p-steps-current'
+                    })
+                }">
+                <template #item="{ label, item, index, props }">
+                    <router-link v-if="item.route" v-slot="routerProps" :to="item.route" custom>
+                        <a :href="routerProps.href" 
+                        v-bind="props.action" 
+                        @click.prevent="($event) => routerProps.navigate($event)" 
+                        @keydown.enter.prevent="($event) => routerProps.navigate($event)">
+                            <span v-bind="props.step">{{ index + 1 }}</span>
+                            <span v-bind="props.label">{{ label }}</span>
+                        </a>
+                    </router-link>
+                    <a v-else :href="item.url" :target="item.target" v-bind="props.action">
+                        <span v-bind="props.step">{{ index + 1 }}</span>
+                        <span v-bind="props.label">{{ label }}</span>
+                    </a>
+                </template>
+            </Steps>
+        </div>
 
-        <!-- Qui puoi aggiungere il contenuto specifico di ciascun passo -->
-        <div v-if="activeStep === 0">
-            Dettagli personali
-        </div>
-        <div v-if="activeStep === 1">
-            Pagamento
-        </div>
-        <div v-if="activeStep === 2">
-            Conferma
-        </div>
-        
+    <!-- Componente router-view per mostrare il componente corrispondente alla rotta attuale -->
+    <router-view></router-view>
 
-        <!-- Potresti voler aggiungere dei pulsanti per avanzare o tornare indietro tra i passi -->
-        <button @click="activeStep = Math.max(0, activeStep - 1)">Indietro</button>
-        <button @click="activeStep = Math.min(items.length - 1, activeStep + 1)">Avanti</button>
+    <button @click="goBackStep" class="back-button" v-if="items.findIndex(item => isActive(item)) > 0">Indietro</button>
+    <button @click="advanceStep" class="advance-button" v-if="items.findIndex(item => isActive(item)) < items.length - 1">Avanti</button>
+            
     </Dialog>
-
 
 
     
 </template>
 
-<style scooped>
+<style scoped>
 
 
 .loading-overlay {
@@ -435,15 +476,40 @@ const items = [
     color: #fff;
 }
 
-.description{
+.RoomDescription{
     width: 380px;
     height: 210px;
 }
 
-</style>
+.advance-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #b97533;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-<style>
-@import url('../dialog.css');
-@import url('../steps.css');
+.advance-button:hover {
+    background-color: #a8642d;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #7f7f7f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px; /* Spazio tra i pulsanti Indietro e Avanti */
+}
+
+.back-button:hover {
+    background-color: #6f6f6f;
+}
 
 </style>

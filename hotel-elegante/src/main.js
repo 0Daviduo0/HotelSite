@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
 import './style.css'
+import 'primevue/resources/themes/saga-orange/theme.css';       // tema
+import 'primevue/resources/primevue.min.css';                 // stili di base di PrimeVue
 import 'primeicons/primeicons.css';
+import './steps.css';
+import './dialog.css';
 import router from './router'
 import App from './App.vue'
 

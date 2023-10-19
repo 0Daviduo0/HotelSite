@@ -51,7 +51,7 @@ const route = useRoute();
         <template #right-buttons>
             <div class="sides">
                 <div 
-                    v-tooltip.top="route.path === '/reserve' ? 'you are here' : ''"
+                    v-tooltip.top="route.path === '/reserve/details' ? 'you are here' : ''"
                 >
                     <div 
                         class="reserveBtn button circular" 
