@@ -29,63 +29,94 @@ function submitForm() {
 
 <template>
     <!-- ... altre parti del componente ... -->
+    <div class="formWrapper">
+        <form @submit.prevent="submitForm">
+            <div class="p-inputgroup flex-1 inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-user"></i>
+                </span>
+                <InputText id="nameSurname" v-model="nameSurname" required class="custom-input" />
+            </div>
 
-    <form @submit.prevent="submitForm">
+            <div class="p-inputgroup flex-1 inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-at"></i>
+                </span>
+                <InputText id="email" type="email" v-model="email" required class="custom-input" />
+            </div>
 
-        <div class="p-inputgroup flex-1">
-            <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-            </span>
-            <InputText id="nameSurname" v-model="nameSurname" required class="custom-input" />
-        </div>
+            <div class="p-inputgroup flex-1 inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-lock"></i>
+                </span>
+                <Password v-model="password" toggleMask class="custom-input">
+                    <template #header>
+                        <h6>Pick a password</h6>
+                    </template>
+                    <template #footer>
+                        <Divider />
+                        <p class="mt-2">Suggestions</p>
+                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                            <li>At least one lowercase</li>
+                            <li>At least one uppercase</li>
+                            <li>At least one numeric</li>
+                            <li>Minimum 8 characters</li>
+                        </ul>
+                    </template>
+                </Password>
+            </div>
 
-        <div class="p-inputgroup flex-1">
-            <span class="p-inputgroup-addon">
-                <i class="pi pi-at"></i>
-            </span>
-            <InputText id="email" type="email" v-model="email" required class="custom-input" />
-        </div>
-
-        <div class="p-inputgroup flex-1">
-            <span class="p-inputgroup-addon">
-                <i class="pi pi-lock"></i>
-            </span>
-            <Password v-model="password" id="password" toggleMask required class="custom-input">
-                <template #header>
-                    <h6>Pick a password</h6>
-                </template>
-                <template #footer>
-                    <Divider />
-                    <p class="mt-2">Suggestions</p>
-                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                        <li>At least one lowercase</li>
-                        <li>At least one uppercase</li>
-                        <li>At least one numeric</li>
-                        <li>Minimum 8 characters</li>
-                    </ul>
-                </template>
-            </Password>
-        </div>
-
-        <Button type="submit" label="Invia" />
-    </form>
+            <div @click="submitForm" class="submitInfos"> Proceed to Payment </div>
+        </form>
+    </div>
+    
 </template>
 
 <style>
 /* Stilizzazione personalizzata dei campi del form */
-.custom-input .p-inputtext {
-    height: 40px;
+.custom-input {
+    height: 50px;
     width: 300px;
     font-size: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.p-inputtext{
     padding-left: 10px;
 }
 
-.custom-input .p-password-panel {
-    width: 300px;
+.p-password-input{
+    padding-left: 10px;
 }
 
-.custom-input .p-password {
-    height: 40px;
+.p-icon{
+    margin-top: -7px;
+}
+
+.formWrapper{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputgroup{
+    margin-bottom: 30px;
+}
+
+.submitInfos{
+    padding: 10px 7px;
+    border: 1px solid black;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submitInfos:hover{
+    border: 1px solid #b97533;
+    background-color: #b97533;
+    color: #fff;
 }
 </style>
 
